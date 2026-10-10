@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "willow-prototype",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--env-file-if-exists=prototype-web/.env", "prototype-web/server.mjs"],
+      "port": 5173
+    }
+  ]
+}

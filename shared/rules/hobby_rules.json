@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "description": "Grandpa's hobbies. Edit freely. Used to recognise hobby videos and to offer an invitation after a debunk - never to hide other videos.",
+  "hobbies": [
+    {
+      "id": "fishing",
+      "label": "Fishing",
+      "label_zh": "钓鱼",
+      "icon": "🎣",
+      "invite_zh": "看看钓鱼",
+      "phrases": ["钓鱼", "野钓", "鱼竿", "鲫鱼", "青鱼", "调漂", "钓位", "打窝", "鱼饵"]
+    },
+    {
+      "id": "garden",
+      "label": "Backyard crops",
+      "label_zh": "种菜",
+      "icon": "🥬",
+      "invite_zh": "看看种菜",
+      "phrases": ["种菜", "菜园", "后院", "菠菜", "大蒜", "番茄", "嫁接", "有机肥", "施肥", "育苗"]
+    },
+    {
+      "id": "chess",
+      "label": "Chinese chess",
+      "label_zh": "下象棋",
+      "icon": "♟️",
+      "invite_zh": "看看下棋",
+      "phrases": ["象棋", "残局", "下棋", "中炮", "屏风马", "将军", "棋局"]
+    }
+  ]
+}

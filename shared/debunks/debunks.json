@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "description": "Curated debunk cards. Plain spoken Chinese for Grandpa, short English lines for demo viewers. Each card is shown as a 4-beat animation: pause -> claim -> truth -> what to do. Have a doctor or pharmacist review these before real use.",
+  "generic": {
+    "id": "fear_then_sell",
+    "icon": "🧾",
+    "myth_zh": "先说你身体出了大问题，再卖你“神药”",
+    "myth_en": "First scare you about your health, then sell you a \"miracle cure\"",
+    "truth_zh": "这是常见的卖货套路。保健食品不是药物，不能代替药物治疗疾病。",
+    "truth_en": "A common sales trick. Health supplements are not medicine and cannot replace it.",
+    "action_zh": "身体不舒服，找医生。不用急着买。",
+    "action_en": "Feeling unwell? See a doctor. No need to buy anything.",
+    "source_zh": "参考：国家市场监管总局《保健食品标注警示用语指南》"
+  },
+  "tip_generic": {
+    "text_zh": "这个说法不一定对，看看就好。身体的事，问医生最靠谱。",
+    "text_en": "This claim may not be accurate. Enjoy the video, but ask a doctor about health matters."
+  },
+  "cards": [
+    {
+      "id": "vessel_tea",
+      "icon": "🫀",
+      "match": ["血管", "疏通", "清理血管", "像新的", "纳豆"],
+      "myth_zh": "每天一杯茶，30天血管就像新的一样",
+      "myth_en": "One cup of tea a day makes your blood vessels \"like new\" in 30 days",
+      "truth_zh": "没有哪种茶或保健品能把血管“洗干净”。血管斑块要医生检查，按医嘱吃药。",
+      "truth_en": "No tea or supplement can \"wash\" blood vessels. Plaque needs a doctor's check and prescribed medicine.",
+      "action_zh": "担心血管，去医院查个血脂，不用买这个。",
+      "action_en": "Worried? Get a blood-lipid test at the hospital instead.",
+      "source_zh": "参考：国家卫健委、科普中国公开科普"
+    },
+    {
+      "id": "diabetes_cure",
+      "icon": "💊",
+      "match": ["血糖", "糖尿病", "降糖"],
+      "myth_zh": "祖传秘方一个月让血糖降到正常，不用再吃药",
+      "myth_en": "A secret family recipe brings blood sugar to normal in a month - no more medicine",
+      "truth_zh": "糖尿病现在还不能根治。自己停药，血糖会突然升高，很危险。",
+      "truth_en": "Diabetes cannot be cured yet. Stopping medicine on your own makes blood sugar spike dangerously.",
+      "action_zh": "药按医生说的吃，别自己停。",
+      "action_en": "Take medicine as the doctor says. Never stop on your own.",
+      "source_zh": "参考：国家卫健委、科普中国公开科普"
+    },
+    {
+      "id": "kidney_fear",
+      "icon": "🫘",
+      "match": ["肾", "衰竭", "补肾"],
+      "myth_zh": "早上起床有这3个症状，说明你的肾在衰竭",
+      "myth_en": "Three morning symptoms mean your kidneys are failing",
+      "truth_zh": "口干、乏力、起夜都很常见，大多和肾衰竭没关系。真担心，抽血查个肾功能就清楚了。",
+      "truth_en": "Dry mouth, tiredness and night-time toilet trips are common and rarely mean kidney failure. A simple blood test answers it.",
+      "action_zh": "去医院查一下，比买胶囊靠谱。",
+      "action_en": "A hospital check beats buying capsules.",
+      "source_zh": "参考：国家卫健委、科普中国公开科普"
+    },
+    {
+      "id": "bp_stop",
+      "icon": "🩺",
+      "match": ["降压", "血压", "停药"],
+      "myth_zh": "降压药越吃越伤肾，停药也能降血压",
+      "myth_en": "Blood-pressure pills hurt your kidneys; you can stop them and still lower blood pressure",
+      "truth_zh": "按医嘱吃降压药，反而能保护心、脑、肾。自己停药，血压会反弹，容易中风。",
+      "truth_en": "Prescribed blood-pressure pills protect the heart, brain and kidneys. Stopping them suddenly raises stroke risk.",
+      "action_zh": "换药、停药，先问医生。",
+      "action_en": "Change or stop medicine only with a doctor.",
+      "source_zh": "参考：国家卫健委、科普中国公开科普"
+    },
+    {
+      "id": "quantum_mattress",
+      "icon": "🛏️",
+      "match": ["量子", "磁疗", "床垫", "能量"],
+      "myth_zh": "睡量子能量床垫，高血压、关节痛全好了",
+      "myth_en": "A \"quantum energy\" mattress cures high blood pressure and joint pain",
+      "truth_zh": "没有科学证据说明这类床垫能治病。“量子”只是听起来厉害的广告词。",
+      "truth_en": "There is no scientific evidence such mattresses treat illness. \"Quantum\" is just an impressive-sounding ad word.",
+      "action_zh": "床垫睡得舒服就行，治病找医生。",
+      "action_en": "A mattress just needs to be comfortable. Illness needs a doctor.",
+      "source_zh": "参考：中国互联网联合辟谣平台公开辟谣"
+    },
+    {
+      "id": "cancer_secret",
+      "icon": "🏥",
+      "match": ["癌", "肿瘤"],
+      "myth_zh": "祖传偏方，很多人吃了肿瘤消失",
+      "myth_en": "A secret folk remedy makes tumours disappear",
+      "truth_zh": "癌症要去正规医院治疗。相信偏方，可能耽误最好的治疗时间。",
+      "truth_en": "Cancer needs proper hospital treatment. Folk remedies can waste precious treatment time.",
+      "action_zh": "有疑问，去正规医院肿瘤科问问。",
+      "action_en": "Any concern - ask a hospital oncology department.",
+      "source_zh": "参考：国家卫健委、科普中国公开科普"
+    },
+    {
+      "id": "joint_patch",
+      "icon": "🦵",
+      "match": ["关节", "膝盖", "膏药", "一贴"],
+      "myth_zh": "膝盖疼？一贴根治关节炎",
+      "myth_en": "One patch cures arthritis for good",
+      "truth_zh": "关节炎不能“一贴根治”，膏药最多暂时止痛。适当活动、控制体重更有用。",
+      "truth_en": "No patch cures arthritis; at most it eases pain for a while. Gentle exercise and healthy weight help more.",
+      "action_zh": "膝盖疼得厉害，去骨科看看。",
+      "action_en": "If your knee really hurts, see an orthopaedist.",
+      "source_zh": "参考：国家卫健委、科普中国公开科普"
+    },
+    {
+      "id": "bone_soup",
+      "icon": "🦴",
+      "match": ["骨头汤", "补钙"],
+      "myth_zh": "天天喝骨头汤，补钙防骨折",
+      "myth_en": "Drinking bone soup every day adds calcium and prevents fractures",
+      "truth_zh": "骨头汤里钙很少，油和嘌呤倒不少。补钙靠牛奶、豆腐、绿叶菜，再多晒晒太阳。",
+      "truth_en": "Bone soup has very little calcium but plenty of fat. Milk, tofu, leafy greens and sunshine work better.",
+      "action_zh": "防骨折：补钙、练平衡、穿防滑鞋。",
+      "action_en": "To prevent fractures: calcium, balance practice, non-slip shoes.",
+      "source_zh": "参考：中国营养学会、科普中国公开科普"
+    }
+  ]
+}

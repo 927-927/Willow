@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Willow Prototype</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="page-head">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">🌳</span> Willow <span class="brand-zh">柳荫</span> <span class="tag">browser prototype</span></div>
+    <p class="lede">Catches fear-based health videos before their audio plays and replaces them with a calm, spoken explanation. Grandpa can always keep watching. Simulated WeChat Channels (视频号) feed.</p>
+  </header>
+
+  <main class="layout">
+    <section class="stage" aria-label="Simulated phone">
+      <div class="phone">
+        <div class="screen" id="screen">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="willow-badge" id="willowBadge" title="Willow is on">🌳 Willow 保护中</span>
+            <span aria-hidden="true">▂▄▆ 🔋</span>
+          </div>
+          <nav class="tabs" aria-hidden="true"><span>关注</span><span>朋友</span><b>推荐</b></nav>
+
+          <div class="feed" id="feed"></div>
+
+          <div class="pill" id="checking" hidden>🔇 Willow 检查中…</div>
+          <div class="tip" id="tip" hidden></div>
+          <div class="debunk" id="debunk" hidden></div>
+          <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+          <div class="sheet" id="sheet" hidden></div>
+          <div class="toast" id="toast" hidden></div>
+
+          <button class="start" id="start" type="button">
+            <span class="start-mark" aria-hidden="true">🌳</span>
+            <span class="start-title">点一下开始</span>
+            <span class="start-sub">Tap to start · browsers need one tap before they can speak</span>
+          </button>
+        </div>
+      </div>
+      <div class="phone-controls">
+        <button type="button" id="prevBtn" aria-label="Previous video">↑ 上一个</button>
+        <button type="button" id="nextBtn" aria-label="Next video">下一个 ↓</button>
+      </div>
+      <p class="hint">Swipe, scroll, or use ↑ ↓ keys</p>
+    </section>
+
+    <aside class="panel" aria-label="Behind the scenes">
+      <p class="panel-note"><strong>Behind the scenes — for the demo only.</strong> Grandpa never sees this panel. The real app keeps no watch history and reports nothing to the family; only on-screen text of an unclear video is sent to Qwen.</p>
+
+      <section class="card">
+        <h2>Settings</h2>
+        <label class="switch"><input type="checkbox" id="optWillow" checked><span class="track"></span><span>Willow protection</span></label>
+        <label class="switch"><input type="checkbox" id="optQwen" checked><span class="track"></span><span>Ask Qwen when the rules are unsure</span></label>
+        <p class="sub" id="qwenStatus">Checking Qwen…</p>
+        <label class="switch"><input type="checkbox" id="optVoice" checked><span class="track"></span><span>Voice (text-to-speech)</span></label>
+        <label class="switch"><input type="checkbox" id="optEnglish"><span class="track"></span><span>English subtitles on Willow screens</span></label>
+        <p class="sub">Grandpa's hobbies: <span id="hobbyList"></span></p>
+      </section>
+
+      <section class="card">
+        <h2>What Willow can see</h2>
+        <p class="sub">Only what's on screen before the sound starts. It never reads his account, messages, or who he follows.</p>
+        <dl class="obs" id="observation"><dt>—</dt><dd>Start the feed</dd></dl>
+      </section>
+
+      <section class="card">
+        <h2>Decision</h2>
+        <div id="decision"><p class="sub">Start the feed.</p></div>
+      </section>
+
+      <section class="card">
+        <h2>How the feed changes</h2>
+        <p class="sub">The platform's recommender (simulated) learns from what Grandpa does. Willow never hides videos itself. When he taps 换一个 (next) on a debunk, it sends “not interested”, and good videos get watched longer.</p>
+        <div class="tiles" id="tiles"></div>
+        <div class="chart viz-root" id="chart"></div>
+        <details class="table-view">
+          <summary>Show as table</summary>
+          <div id="chartTable"></div>
+        </details>
+        <div class="sim-row">
+          <button type="button" id="simBtn">Simulate a week (150 videos)</button>
+          <button type="button" id="resetBtn" class="ghost">Reset feed</button>
+        </div>
+        <p class="sub" id="simNote">The simulation uses the current “Willow protection” setting. Try it on, reset, then try it off.</p>
+      </section>
+    </aside>
+  </main>
+
+  <script type="module" src="app.js"></script>
+  <script>
+    // If app.js never loads (e.g. index.html opened as a file instead of through the server), say so.
+    window.addEventListener('load', () => setTimeout(() => {
+      if (window.willowReady) return;
+      document.querySelector('.start-title').textContent = '请先运行 npm start';
+      document.querySelector('.start-sub').textContent = location.protocol === 'file:'
+        ? 'This page was opened as a file. In prototype-web run "npm start", then open http://localhost:5173'
+        : 'The app failed to load. Check the terminal running "npm start".';
+    }, 3000));
+  </script>
+</body>
+</html>

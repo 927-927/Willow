@@ -1,0 +1,281 @@
+{
+  "version": 1,
+  "description": "Mock short videos for the prototype. 'category' is the ground truth the simulated platform recommender uses; Willow never sees it - Willow only sees author/caption/hashtags/onScreenText/product, like the real accessibility service would. Voiceovers are read by text-to-speech to stand in for the video's audio.",
+  "videos": [
+    {
+      "id": "s1", "category": "scam",
+      "author": { "name": "养生堂张教授", "verified": null },
+      "caption": "血管堵了全身病！每天一杯这个茶，30天血管像新的一样 👇点击下方小黄车",
+      "hashtags": ["#中老年", "#养生"],
+      "onScreenText": "血管堵了 全身病！",
+      "product": { "title": "通脉清茶 30天装", "price": 398 },
+      "scene": { "style": "alarm", "emoji": "🫀" },
+      "voiceover": "注意！血管堵塞是猝死的头号元凶！每天一杯这个茶，三十天，血管就像新的一样！赶紧点击下方小黄车！",
+      "likes": "3.1万"
+    },
+    {
+      "id": "s2", "category": "scam",
+      "author": { "name": "老中医王大夫", "verified": null },
+      "caption": "糖尿病不用再吃药！祖传秘方一个月血糖降到正常，医院不会告诉你",
+      "hashtags": ["#中老年", "#降糖"],
+      "onScreenText": "不用吃药 血糖降到正常！",
+      "product": { "title": "古方降糖茶", "price": 598 },
+      "scene": { "style": "alarm", "emoji": "🩸" },
+      "voiceover": "医院不会告诉你的秘密！祖传秘方，一个月，血糖降到正常，再也不用吃药打针！",
+      "likes": "1.8万"
+    },
+    {
+      "id": "h1", "category": "fishing",
+      "author": { "name": "老李野钓", "verified": "creator" },
+      "caption": "冬季野钓鲫鱼，这个钓位一定要记住",
+      "hashtags": ["#钓鱼", "#野钓"],
+      "onScreenText": "冬钓鲫鱼 找向阳的浅滩",
+      "product": null,
+      "scene": { "style": "water", "emoji": "🎣" },
+      "voiceover": "冬天钓鲫鱼，要找向阳的浅滩，水温高一点，鱼就爱待在这儿。",
+      "likes": "8,642"
+    },
+    {
+      "id": "s3", "category": "scam",
+      "author": { "name": "健康早知道", "verified": null },
+      "caption": "早上起床有这3个症状，说明你的肾在衰竭！再不注意就晚了",
+      "hashtags": ["#养生"],
+      "onScreenText": "肾在衰竭！！",
+      "product": { "title": "补肾胶囊 3瓶装", "price": 268 },
+      "scene": { "style": "alarm", "emoji": "⚠️" },
+      "voiceover": "早上起床口干、乏力、起夜，说明你的肾正在衰竭！再不注意就晚了！",
+      "likes": "2.4万"
+    },
+    {
+      "id": "n1", "category": "general",
+      "author": { "name": "丁蜀镇手艺人", "verified": "creator" },
+      "caption": "宜兴紫砂壶，一把壶要捏整整七天",
+      "hashtags": ["#紫砂", "#手艺"],
+      "onScreenText": "一把壶 七天工",
+      "product": null,
+      "scene": { "style": "craft", "emoji": "🫖" },
+      "voiceover": "泥料要先打成泥片，再一点一点围起来，一把好壶，要做整整七天。",
+      "likes": "5,210"
+    },
+    {
+      "id": "m1", "category": "dubious",
+      "author": { "name": "老中医说养生", "verified": null },
+      "caption": "骨头汤是补钙佳品，60岁以后天天喝，防骨折",
+      "hashtags": ["#养生"],
+      "onScreenText": "天天喝 骨头硬朗",
+      "product": null,
+      "scene": { "style": "kitchen", "emoji": "🍲" },
+      "voiceover": "人老了骨头就脆，天天喝一碗骨头汤，补钙防骨折。",
+      "likes": "9,877"
+    },
+    {
+      "id": "g1", "category": "garden",
+      "author": { "name": "王叔的菜园", "verified": "creator" },
+      "caption": "后院种菜：冬天种菠菜大蒜正合适",
+      "hashtags": ["#种菜", "#菜园"],
+      "onScreenText": "冬天也能种菜",
+      "product": null,
+      "scene": { "style": "garden", "emoji": "🥬" },
+      "voiceover": "冬天别让菜地空着，菠菜和大蒜都不怕冷，现在种下去，开春就能吃。",
+      "likes": "6,133"
+    },
+    {
+      "id": "s4", "category": "scam",
+      "author": { "name": "退休专家李教授", "verified": null },
+      "caption": "降压药越吃越伤肾！退休专家教你一招，停药也能降血压",
+      "hashtags": ["#中老年"],
+      "onScreenText": "降压药 越吃越伤！",
+      "product": { "title": "天然降压枕", "price": 328 },
+      "scene": { "style": "alarm", "emoji": "💊" },
+      "voiceover": "降压药越吃越伤肾！退休专家教你一招，停药也能降血压！",
+      "likes": "4.2万"
+    },
+    {
+      "id": "c1", "category": "chess",
+      "author": { "name": "象棋残局天天练", "verified": "creator" },
+      "caption": "象棋残局：七星聚会怎么破？",
+      "hashtags": ["#象棋", "#残局"],
+      "onScreenText": "七星聚会",
+      "product": null,
+      "scene": { "style": "chess", "emoji": "♟️" },
+      "voiceover": "七星聚会是四大名局之一，红先，看看你能不能找到第一步。",
+      "likes": "1.1万"
+    },
+    {
+      "id": "r1", "category": "realHealth",
+      "author": { "name": "市人民医院心内科 李医生", "verified": "medical" },
+      "caption": "高血压患者冬天要注意：按时吃药，别自己停药，早晚量血压",
+      "hashtags": ["#高血压", "#科普"],
+      "onScreenText": "冬季血压 三件事",
+      "product": null,
+      "scene": { "style": "clinic", "emoji": "🩺" },
+      "voiceover": "冬天血压容易波动。记住三件事：按时吃药，不要自己停药，早晚各量一次血压。",
+      "likes": "3,402"
+    },
+    {
+      "id": "s5", "category": "scam",
+      "author": { "name": "量子健康馆", "verified": null },
+      "caption": "量子能量床垫，睡一觉高血压、关节痛全好了！仅剩50件",
+      "hashtags": ["#中老年", "#养生"],
+      "onScreenText": "睡一觉 全好了！",
+      "product": { "title": "量子能量床垫", "price": 1980 },
+      "scene": { "style": "alarm", "emoji": "🛏️" },
+      "voiceover": "量子能量床垫，睡一觉，高血压、关节痛全好了！仅剩五十件，手慢无！",
+      "likes": "1.5万"
+    },
+    {
+      "id": "h2", "category": "fishing",
+      "author": { "name": "太湖钓客", "verified": "creator" },
+      "caption": "太湖边钓到一条大青鱼！遛了二十分钟",
+      "hashtags": ["#钓鱼", "#太湖"],
+      "onScreenText": "大青鱼上岸！",
+      "product": null,
+      "scene": { "style": "water", "emoji": "🐟" },
+      "voiceover": "上鱼了上鱼了！这条青鱼劲真大，慢慢遛，别着急。",
+      "likes": "2.7万"
+    },
+    {
+      "id": "m2", "category": "dubious",
+      "author": { "name": "健康小常识", "verified": null },
+      "caption": "这种水果千万别和药一起吃！很多老人不知道",
+      "hashtags": ["#健康"],
+      "onScreenText": "西柚 + 降压药 = ？",
+      "product": null,
+      "scene": { "style": "kitchen", "emoji": "🍊" },
+      "voiceover": "西柚会影响一些降压药和降脂药的代谢，吃药期间最好别吃西柚，具体问问药师。",
+      "likes": "7,540"
+    },
+    {
+      "id": "g2", "category": "garden",
+      "author": { "name": "阳台小菜园", "verified": "creator" },
+      "caption": "番茄嫁接，一棵能结三百个",
+      "hashtags": ["#种菜", "#嫁接"],
+      "onScreenText": "番茄嫁接 手把手",
+      "product": null,
+      "scene": { "style": "garden", "emoji": "🍅" },
+      "voiceover": "嫁接的时候，切口要斜，对准了再用夹子夹紧，七天就能长好。",
+      "likes": "4,089"
+    },
+    {
+      "id": "s6", "category": "scam",
+      "author": { "name": "民间神医", "verified": null },
+      "caption": "癌症克星！祖传偏方，很多人吃了肿瘤消失",
+      "hashtags": ["#养生"],
+      "onScreenText": "肿瘤消失了！",
+      "product": { "title": "灵芝孢子粉 礼盒", "price": 888 },
+      "scene": { "style": "alarm", "emoji": "🍄" },
+      "voiceover": "癌症克星！祖传偏方，很多人吃了，肿瘤都消失了！",
+      "likes": "1.2万"
+    },
+    {
+      "id": "n2", "category": "general",
+      "author": { "name": "幸福一家人", "verified": null },
+      "caption": "小孙子第一次喊爷爷，老爷子乐坏了",
+      "hashtags": ["#家庭", "#温馨"],
+      "onScreenText": "爷——爷——",
+      "product": null,
+      "scene": { "style": "warm", "emoji": "👶" },
+      "voiceover": "爷爷！爷爷！哎，乖孙子！",
+      "likes": "12.6万"
+    },
+    {
+      "id": "c2", "category": "chess",
+      "author": { "name": "公园棋王", "verified": null },
+      "caption": "公园大爷下棋，最后一步绝了",
+      "hashtags": ["#下棋", "#象棋"],
+      "onScreenText": "将军！",
+      "product": null,
+      "scene": { "style": "chess", "emoji": "🧓" },
+      "voiceover": "你看这一步，马后炮，将军！围观的大爷都叫好。",
+      "likes": "3.3万"
+    },
+    {
+      "id": "s7", "category": "scam",
+      "author": { "name": "老药房", "verified": null },
+      "caption": "膝盖疼？一贴根治关节炎，限时特价",
+      "hashtags": ["#中老年"],
+      "onScreenText": "一贴 根治！",
+      "product": { "title": "老黑膏 关节贴", "price": 199 },
+      "scene": { "style": "alarm", "emoji": "🦵" },
+      "voiceover": "膝盖疼？一贴根治关节炎！限时特价，赶紧下单！",
+      "likes": "8,920"
+    },
+    {
+      "id": "r2", "category": "realHealth",
+      "author": { "name": "市人民医院康复科 陈医生", "verified": "medical" },
+      "caption": "老人防跌倒：每天3个平衡练习，扶着椅子就能做",
+      "hashtags": ["#防跌倒", "#科普"],
+      "onScreenText": "防跌倒 平衡练习",
+      "product": null,
+      "scene": { "style": "clinic", "emoji": "🧍" },
+      "voiceover": "扶着椅背，单脚站十秒，换脚。每天练三组，走路会更稳。",
+      "likes": "5,678"
+    },
+    {
+      "id": "h3", "category": "fishing",
+      "author": { "name": "钓鱼新手村", "verified": "creator" },
+      "caption": "新手调漂，一看就会",
+      "hashtags": ["#钓鱼"],
+      "onScreenText": "调四钓二",
+      "product": null,
+      "scene": { "style": "water", "emoji": "🪝" },
+      "voiceover": "调四钓二，最简单的调漂方法，新手照着做就行。",
+      "likes": "2,301"
+    },
+    {
+      "id": "s8", "category": "scam",
+      "author": { "name": "长寿秘诀分享", "verified": null },
+      "caption": "吃这个，免疫力提升10倍，再也不感冒！仅剩最后100盒",
+      "hashtags": ["#中老年", "#养生"],
+      "onScreenText": "免疫力 提升10倍！",
+      "product": { "title": "蜂胶软胶囊", "price": 368 },
+      "scene": { "style": "alarm", "emoji": "🛡️" },
+      "voiceover": "吃这个，免疫力提升十倍，再也不感冒！仅剩最后一百盒！",
+      "likes": "6,712"
+    },
+    {
+      "id": "n3", "category": "general",
+      "author": { "name": "江南风景", "verified": null },
+      "caption": "太湖日落，美得不像话",
+      "hashtags": ["#太湖", "#风景"],
+      "onScreenText": "太湖 · 日落",
+      "product": null,
+      "scene": { "style": "sunset", "emoji": "🌅" },
+      "voiceover": "太阳慢慢落进湖里，整片湖面都是金色的。",
+      "likes": "4.4万"
+    },
+    {
+      "id": "g3", "category": "garden",
+      "author": { "name": "王叔的菜园", "verified": "creator" },
+      "caption": "自制有机肥，菜长得又快又旺",
+      "hashtags": ["#种菜"],
+      "onScreenText": "厨余变肥料",
+      "product": null,
+      "scene": { "style": "garden", "emoji": "🌱" },
+      "voiceover": "菜叶果皮别扔，埋进桶里发酵一个月，就是好肥料。",
+      "likes": "3,890"
+    },
+    {
+      "id": "c3", "category": "chess",
+      "author": { "name": "象棋残局天天练", "verified": "creator" },
+      "caption": "中炮对屏风马，开局三步要记牢",
+      "hashtags": ["#象棋"],
+      "onScreenText": "中炮 vs 屏风马",
+      "product": null,
+      "scene": { "style": "chess", "emoji": "♟️" },
+      "voiceover": "中炮对屏风马，最常见的开局。前三步走对了，后面就不慌。",
+      "likes": "7,015"
+    },
+    {
+      "id": "n4", "category": "general",
+      "author": { "name": "戏曲频道", "verified": "creator" },
+      "caption": "锡剧《珍珠塔》经典选段",
+      "hashtags": ["#锡剧", "#戏曲"],
+      "onScreenText": "锡剧 · 珍珠塔",
+      "product": null,
+      "scene": { "style": "warm", "emoji": "🎭" },
+      "voiceover": "锡剧经典选段，珍珠塔，听听这熟悉的调子。",
+      "likes": "1.9万"
+    }
+  ]
+}

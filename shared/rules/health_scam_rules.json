@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "description": "Weighted signals for predatory health videos aimed at elderly viewers. Each group counts once; combos add a bonus. Matching is done on what is visible on screen BEFORE audio plays (author, caption, hashtags, on-screen text, product card).",
+  "groups": {
+    "fear": {
+      "label": "Fear claim",
+      "label_zh": "恐吓",
+      "weight": 0.3,
+      "phrases": ["猝死", "器官衰竭", "衰竭", "血管堵", "堵塞", "癌变", "就晚了", "千万别", "千万不要", "头号元凶", "致命", "隐形杀手", "越吃越伤", "伤肾", "要命", "瘫痪"]
+    },
+    "cure": {
+      "label": "Miracle cure",
+      "label_zh": "神效",
+      "weight": 0.3,
+      "phrases": ["根治", "祖传", "秘方", "偏方", "不用吃药", "停药也能", "不用打针", "神药", "克星", "包治", "全好了", "像新的", "疏通血管", "清理血管", "肿瘤消失", "一贴", "降到正常", "逆转", "提升10倍", "再也不"]
+    },
+    "fakeAuthority": {
+      "label": "Fake authority",
+      "label_zh": "假权威",
+      "weight": 0.15,
+      "phrases": ["老中医", "退休专家", "退休教授", "医院不会告诉你", "医生不会告诉你", "医生都在用", "专家揭秘", "内部消息", "国外研究", "张教授", "王大夫"]
+    },
+    "sales": {
+      "label": "Sales hook",
+      "label_zh": "带货",
+      "weight": 0.3,
+      "phrases": ["小黄车", "点击下方", "点下方", "限时", "仅剩", "特价", "原价", "现价", "下单", "包邮", "抢购", "最后一天", "最后100", "链接"]
+    },
+    "targeting": {
+      "label": "Targets the elderly",
+      "label_zh": "针对老人",
+      "weight": 0.1,
+      "phrases": ["#中老年", "#养生", "长寿秘诀", "老年人必看", "很多老人不知道", "50岁以后", "60岁以后"]
+    }
+  },
+  "features": {
+    "hasProduct": { "label": "Product card on screen", "label_zh": "有商品链接", "weight": 0.15 }
+  },
+  "combos": [
+    {
+      "label": "Scare/cure + selling",
+      "label_zh": "先吓人再卖货",
+      "any_of": ["fear", "cure"],
+      "and_any_of": ["sales", "hasProduct"],
+      "bonus": 0.2
+    }
+  ],
+  "thresholds": {
+    "intercept": 0.65,
+    "tip": 0.25
+  },
+  "allow": {
+    "verifiedTypes": ["medical"],
+    "note": "Accounts the platform has verified as hospitals / licensed doctors are never intercepted."
+  }
+}

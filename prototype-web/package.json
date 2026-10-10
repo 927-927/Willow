@@ -1,0 +1,13 @@
+{
+  "name": "willow-prototype-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser prototype of Willow: intercepts predatory health short videos and replaces them with a gentle debunk.",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs"
+  },
+  "engines": {
+    "node": ">=22.9"
+  }
+}
