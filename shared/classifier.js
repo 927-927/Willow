@@ -47,6 +47,11 @@ export function classifyWithRules(obs, rules) {
   }
 
   score = Math.min(1, Math.round(score * 100) / 100);
+
+  // Health-topic gate: fear or sales words alone (a fishing-gear sale) never trigger anything.
+  const onTopic = !rules.topic || rules.topic.phrases.some((p) => text.includes(p));
+  if (!onTopic) return { score, level: 'allow', label: 'off_topic', matched };
+
   const level =
     score >= rules.thresholds.intercept ? 'intercept' :
     score >= rules.thresholds.tip ? 'tip' : 'allow';

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "description": "Weighted signals for predatory health videos aimed at elderly viewers. Each group counts once; combos add a bonus. Matching is done on what is visible on screen BEFORE audio plays (author, caption, hashtags, on-screen text, product card).",
   "groups": {
     "fear": {
@@ -45,6 +45,12 @@
       "bonus": 0.2
     }
   ],
+  "topic": {
+    "label": "Health topic",
+    "label_zh": "健康话题",
+    "note": "Tip/intercept only when at least one of these health words is present. Generic fear or sales words alone (a fishing-gear sale, '钓鱼千万别用这种饵') are not enough.",
+    "phrases": ["血压", "血糖", "血脂", "血管", "心脏", "心梗", "脑梗", "中风", "肾", "肝", "胃", "肺", "癌", "肿瘤", "结节", "关节", "膝盖", "腰椎", "颈椎", "骨质", "补钙", "药", "保健", "养生", "疾病", "健康", "长寿", "失眠", "便秘", "前列腺", "视力", "气血", "湿气", "医生", "医院", "专家", "老中医", "降压", "降糖", "猝死", "衰竭", "瘫痪"]
+  },
   "thresholds": {
     "intercept": 0.65,
     "tip": 0.25

@@ -480,6 +480,7 @@ function renderDecision(d) {
     </div>
     <div class="meter-scale"><span>Rule score <b>${d.score.toFixed(2)}</b></span><span>tip ≥ ${t.tip} · intercept ≥ ${t.intercept}</span></div>
     <div class="chips">${chips}</div>
+    ${d.label === 'off_topic' && d.matched.length ? '<p class="sub">No health words, so these signals are ignored (e.g. a fishing-gear sale).</p>' : ''}
     <p class="sub">${tierText}</p>
     ${d.ai ? `<p class="ai-note"><b>Qwen:</b> ${esc(d.ai.label)} (${Math.round((d.ai.confidence ?? 0) * 100)}%) - ${esc(d.ai.reason || '')}</p>` : ''}
     ${d.card && d.level !== 'allow' ? `<p class="sub">Explanation: ${d.cardSource === 'library' ? `curated card <code>${esc(d.card.id)}</code>` : d.cardSource === 'ai' ? 'written by Qwen for this video' : 'generic “scare then sell” card'}</p>` : ''}
