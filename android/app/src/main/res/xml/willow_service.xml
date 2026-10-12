@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Only WeChat is observed. canPerformGestures lets 换一个视频 and swipes on the explanation
+     card move the feed, exactly as if he had swiped himself.
+     typeWindowContentChanged / typeWindowsChanged are ignored in code but must be subscribed:
+     Android refreshes the service's cached screen tree from them. Without them Willow saw a
+     stale, empty WeChat window (found on the test phone, 2026-10-12). -->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowStateChanged|typeViewScrolled|typeWindowContentChanged|typeWindowsChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagReportViewIds|flagRetrieveInteractiveWindows|flagIncludeNotImportantViews"
+    android:canRetrieveWindowContent="true"
+    android:canPerformGestures="true"
+    android:notificationTimeout="50"
+    android:packageNames="com.tencent.mm"
+    android:description="@string/service_description" />

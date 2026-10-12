@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">柳荫 Willow</string>
+    <string name="service_label">柳荫 Willow</string>
+    <string name="service_description">在微信视频号里，遇到“先吓人、再卖药”的视频时，先把声音关掉，再用大字和慢慢的声音一起看看这个说法对不对。不记录看过什么，不上传任何东西，不告诉任何人。每次都可以选「继续看原视频」。</string>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Willow (柳荫): mutes, checks and gently explains fear-based health scam videos in WeChat Channels.
+     No monitoring: nothing is stored or sent anywhere. No restricting: every explanation has 继续看原视频. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.willow">
+
+    <queries>
+        <!-- Look up WeChat's activity names (Android 11+ package visibility). -->
+        <package android:name="com.tencent.mm" />
+        <!-- Find the phone's text-to-speech engine for the spoken explanation. -->
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
+    <application
+        android:label="@string/app_name"
+        android:allowBackup="false">
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".WillowService"
+            android:label="@string/service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/willow_service" />
+        </service>
+    </application>
+</manifest>

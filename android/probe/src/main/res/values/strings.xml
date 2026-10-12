@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Willow Probe</string>
+    <string name="service_label">Willow Probe (测试用)</string>
+    <string name="service_description">开发测试工具：记录微信视频号界面上能读到哪些文字。只在测试手机上使用，不要装在爷爷的手机上。</string>
+</resources>
