@@ -1,0 +1,5 @@
+# Shell scripts must keep Unix line endings, or bash fails on a Windows checkout ($'\r': command not found).
+*.sh    text eol=lf
+gradlew text eol=lf
+*.bat   text eol=crlf
+*.jar   binary

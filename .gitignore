@@ -1,3 +1,20 @@
+# .gitignore lists files git must leave out of commits, so they never reach GitHub.
+# A pattern without a "/" in the middle (like .env) matches in every folder.
+# Comments must sit on their own line: text after a pattern counts as part of the pattern.
+
+# Secrets: the Qwen / DashScope API key lives in prototype-web/.env. Never commit any .env file.
 .env
+.env.*
+# ...except the template, which holds no real key and is meant to be shared.
+!.env.example
+
+# Installed packages (npm install recreates them)
 node_modules/
+
+# Claude Code's personal settings on this PC
 .claude/settings.local.json
+
+# Android build output and machine-specific config
+android/**/build/
+android/.gradle/
+android/local.properties
