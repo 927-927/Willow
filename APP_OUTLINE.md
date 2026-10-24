@@ -2,9 +2,9 @@
 
 > Working name from the essay: the willow tree my great-grandparents sat under. The app's job is to give Grandpa that same carefree shade back from his phone.
 
-**Decisions so far:** Android · WeChat Channels (视频号) · Qwen for the AI tier · no monitoring, no restricting what he watches.
+**Decisions so far:** Android · WeChat Channels (视频号) · DeepSeek (`deepseek-flash`) for the AI tier, Qwen as a switchable alternative (decided 2026-10-24: the user already has a DeepSeek account) · no monitoring, no restricting what he watches.
 
-**Status:** Phase 1 browser prototype is built → [prototype-web/README.md](prototype-web/README.md)
+**Status:** Phase 1 browser prototype is built → [prototype-web/README.md](prototype-web/README.md). Android **v1.0** (screenshot + on-phone OCR, rules + Qwen, purchase pause, hobby search) is built in [android/app](android/app); next is testing it on the phone.
 
 ## 1. Problem (from the application draft)
 
@@ -131,8 +131,8 @@ video interception/
 |---|---|---|---|
 | **1. Web prototype** ✓ | Prove the idea, demo-able | Simulated Channels feed, rules + Qwen, spoken explanations, feed chart | Done |
 | **0. Research** (alongside) | Learn the real enemy | ~100 screenshots of real scare videos from Channels; top myths; hobby creators | Grandpa's OK |
-| **2. Android MVP** | Real interception in WeChat Channels | AccessibilityService observer, mute, overlay, buttons | Android Studio, test phone |
-| **3. Full coverage** | Harder cases | Screenshot + Qwen-VL reading, purchase pause, hobby search button | 百炼 API key |
+| **2. Android MVP** ✓ | Real interception in WeChat Channels | AccessibilityService observer, mute, overlay, buttons (v0) | Android Studio, test phone |
+| **3. Full coverage** (v1.0 built) | Harder cases | Screenshot + on-phone OCR ✓, Qwen text tier on the phone ✓, purchase pause ✓, hobby search ✓; Qwen-VL later | 百炼 API key |
 | **4. Trial with Grandpa** | Real-world evidence | Install with his agreement, gather feedback, iterate | Family |
 
 ### Phase 2 prep for tonight

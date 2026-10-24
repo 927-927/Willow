@@ -13,11 +13,11 @@ const [rules, hobbyRules, debunks, feedData, status] = await Promise.all([
   getJson('/shared/rules/hobby_rules.json'),
   getJson('/shared/debunks/debunks.json'),
   getJson('/shared/samples/feed.json'),
-  getJson('/api/status').catch(() => ({ qwen: false, model: null })),
+  getJson('/api/status').catch(() => ({ ai: false, provider: null, model: null })),
 ]);
 
 const recommender = new Recommender(feedData.videos);
-const settings = { willow: true, qwen: status.qwen, english: false };
+const settings = { willow: true, ai: status.ai, english: false };
 const WATCHED_MS = 4000;
 let simSeed = 7;
 
@@ -37,7 +37,7 @@ function observe(video) {
   return { author, caption, hashtags, onScreenText, product };
 }
 
-// ---------- Decision: rules first, Qwen only when unsure ----------
+// ---------- Decision: rules first, the AI only when unsure ----------
 
 async function decide(obs) {
   const r = classifyWithRules(obs, rules);
@@ -47,8 +47,8 @@ async function decide(obs) {
   const unsure = r.level === 'tip' || (r.level === 'intercept' && !card);
   if (!unsure || r.label === 'verified_medical') return finishDecision(decision, obs);
 
-  if (!settings.qwen) {
-    decision.tierNote = status.qwen ? 'Qwen switched off' : 'Qwen not configured';
+  if (!settings.ai) {
+    decision.tierNote = status.ai ? 'AI switched off' : 'AI not configured';
     return finishDecision(decision, obs);
   }
 
@@ -62,15 +62,15 @@ async function decide(obs) {
     decision.latencyMs = Math.round(performance.now() - t0);
     if (res.result) {
       const ai = res.result;
-      decision.tier = 'qwen';
+      decision.tier = 'ai';
       decision.ai = ai;
       decision.label = ai.label;
       decision.level = ai.label === 'predatory_health' ? 'intercept' : ai.label === 'dubious_health' ? 'tip' : 'allow';
     } else {
-      decision.tierNote = res.error ? `Qwen error, fell back to rules: ${res.error}` : 'Qwen not configured';
+      decision.tierNote = res.error ? `AI error, fell back to rules: ${res.error}` : 'AI not configured';
     }
   } catch (err) {
-    decision.tierNote = `Qwen unreachable, fell back to rules`;
+    decision.tierNote = `AI unreachable, fell back to rules`;
   }
   return finishDecision(decision, obs);
 }
@@ -85,7 +85,7 @@ function finishDecision(d, obs) {
         myth_zh: d.ai.claim, myth_en: d.ai.claim_en,
         truth_zh: d.ai.truth, truth_en: d.ai.truth_en,
         action_zh: d.ai.action, action_en: d.ai.action_en,
-        source_zh: '这段解释由 AI（通义千问）生成，仅供参考。身体的事，请问医生。',
+        source_zh: `这段解释由 AI（${status.provider === 'Qwen' ? '通义千问' : 'DeepSeek'}）生成，仅供参考。身体的事，请问医生。`,
       };
     } else if (d.level === 'intercept') {
       d.cardSource = 'generic';
@@ -465,8 +465,8 @@ function renderDecision(d) {
     return;
   }
   const lv = LEVELS[d.level];
-  const tierText = d.tier === 'qwen'
-    ? `Rules were unsure → asked Qwen (${esc(d.ai.model)}) · ${d.latencyMs} ms${d.ai.cached ? ' (cached)' : ''}`
+  const tierText = d.tier === 'ai'
+    ? `Rules were unsure → asked ${esc(status.provider)} (${esc(d.ai.model)}) · ${d.latencyMs} ms${d.ai.cached ? ' (cached)' : ''}`
     : `Rules only · instant${d.tierNote ? ` · ${esc(d.tierNote)}` : ''}`;
   const chips = d.matched.length
     ? d.matched.map((m) => `<span class="chip" title="${esc(m.phrases.join('、'))}">${esc(m.label_zh)} · ${esc(m.label)}${m.phrases.length ? `: ${esc(m.phrases.slice(0, 3).join('、'))}` : ''}</span>`).join('')
@@ -482,8 +482,8 @@ function renderDecision(d) {
     <div class="chips">${chips}</div>
     ${d.label === 'off_topic' && d.matched.length ? '<p class="sub">No health words, so these signals are ignored (e.g. a fishing-gear sale).</p>' : ''}
     <p class="sub">${tierText}</p>
-    ${d.ai ? `<p class="ai-note"><b>Qwen:</b> ${esc(d.ai.label)} (${Math.round((d.ai.confidence ?? 0) * 100)}%) - ${esc(d.ai.reason || '')}</p>` : ''}
-    ${d.card && d.level !== 'allow' ? `<p class="sub">Explanation: ${d.cardSource === 'library' ? `curated card <code>${esc(d.card.id)}</code>` : d.cardSource === 'ai' ? 'written by Qwen for this video' : 'generic “scare then sell” card'}</p>` : ''}
+    ${d.ai ? `<p class="ai-note"><b>${esc(status.provider)}:</b> ${esc(d.ai.label)} (${Math.round((d.ai.confidence ?? 0) * 100)}%) - ${esc(d.ai.reason || '')}</p>` : ''}
+    ${d.card && d.level !== 'allow' ? `<p class="sub">Explanation: ${d.cardSource === 'library' ? `curated card <code>${esc(d.card.id)}</code>` : d.cardSource === 'ai' ? `written by ${esc(status.provider)} for this video` : 'generic “scare then sell” card'}</p>` : ''}
     ${d.hobby ? `<p class="sub">Hobby video: ${d.hobby.icon} ${esc(d.hobby.label)}</p>` : ''}`;
 }
 
@@ -544,12 +544,12 @@ function bindSettings() {
     $('willowBadge').hidden = !settings.willow;
     if (state.current) showVideo(state.current.video, 'up');
   };
-  $('optQwen').checked = settings.qwen;
-  $('optQwen').disabled = !status.qwen;
-  $('optQwen').onchange = (e) => { settings.qwen = e.target.checked; };
-  $('qwenStatus').innerHTML = status.qwen
-    ? `Connected · model <code>${esc(status.model)}</code>. Only used for unclear videos.`
-    : 'Not configured: rules only. Add <code>DASHSCOPE_API_KEY</code> to <code>prototype-web/.env</code> and restart.';
+  $('optAi').checked = settings.ai;
+  $('optAi').disabled = !status.ai;
+  $('optAi').onchange = (e) => { settings.ai = e.target.checked; };
+  $('aiStatus').innerHTML = status.ai
+    ? `Connected · ${esc(status.provider)}, model <code>${esc(status.model)}</code>. Only used for unclear videos.`
+    : 'Not configured: rules only. Add <code>DEEPSEEK_API_KEY</code> to <code>prototype-web/.env</code> and restart.';
   $('optVoice').disabled = !voice.available;
   $('optVoice').onchange = (e) => { voice.enabled = e.target.checked; };
   $('optEnglish').onchange = (e) => { document.body.classList.toggle('show-en', e.target.checked); };

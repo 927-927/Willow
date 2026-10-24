@@ -1,5 +1,5 @@
 // Willow prototype server - zero dependencies (Node 22+).
-// Serves the web prototype, the shared rules, and a /api/classify endpoint that asks Qwen
+// Serves the web prototype, the shared rules, and a /api/classify endpoint that asks the AI (DeepSeek or Qwen)
 // about videos the rules aren't sure about. The API key stays here, never in the browser.
 
 import http from 'node:http';
@@ -13,9 +13,21 @@ const ROOTS = {
   '/': path.resolve(here, 'public'),
 };
 const PORT = Number(process.env.PORT || 5173);
-const API_KEY = process.env.DASHSCOPE_API_KEY || '';
-const BASE_URL = (process.env.QWEN_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1').replace(/\/$/, '');
-const MODEL = process.env.QWEN_MODEL || 'qwen-plus';
+
+// The AI: DeepSeek (DEEPSEEK_API_KEY) by default, Qwen / 百炼 (DASHSCOPE_API_KEY) if only that key is set,
+// or AI_PROVIDER=deepseek|qwen. The same choice as android/app/build.gradle.kts.
+const env = process.env;
+const PROVIDER = env.AI_PROVIDER || (!env.DEEPSEEK_API_KEY && env.DASHSCOPE_API_KEY ? 'qwen' : 'deepseek');
+const AI = PROVIDER === 'qwen'
+  ? { name: 'Qwen', key: env.DASHSCOPE_API_KEY, model: env.QWEN_MODEL || 'qwen-plus',
+      baseUrl: env.QWEN_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+      noThinking: { enable_thinking: false } }
+  : { name: 'DeepSeek', key: env.DEEPSEEK_API_KEY, model: env.DEEPSEEK_MODEL || 'deepseek-flash',
+      baseUrl: env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
+      noThinking: { thinking: { type: 'disabled' } } };
+const API_KEY = AI.key || '';
+const BASE_URL = AI.baseUrl.replace(/\/$/, '');
+const MODEL = AI.model;
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -28,28 +40,13 @@ const MIME = {
   '.ico': 'image/x-icon',
 };
 
-const SYSTEM_PROMPT = `你是 Willow 的内容判断助手。Willow 帮助一位不太识字的中国老人分辨短视频里的健康骗局。
-你只会看到视频在声音播放前屏幕上能看到的文字：作者名、标题、话题标签、画面大字、商品链接。
-
-请判断这个视频属于哪一类：
-- predatory_health：用恐吓或“神效”说法推销没有科学依据的产品或疗法（例如保健品治病、劝人停药、偏方治癌）
-- dubious_health：健康说法不准确或夸大，但没有在卖东西
-- legit_health：说法基本正确的健康科普（即使措辞有点夸张也算）
-- hobby：钓鱼、种菜、下象棋等兴趣内容
-- other：其他内容
-
-原则：
-1. 尊重老人看视频的自由。只有明确的骗局才判 predatory_health；正确的健康知识不要误伤。
-2. claim、truth、action 写给老人看：口语、简单、温和，不要责备，不要说“你被骗了”。
-3. truth 要准确，只说有共识的医学常识；不确定就建议问医生或药师。
-
-只输出 JSON，格式：
-{"label":"...","confidence":0到1之间的小数,"claim":"视频的核心说法，不超过30字","truth":"真相，不超过45字","action":"建议怎么做，不超过20字","claim_en":"...","truth_en":"...","action_en":"...","reason":"一句话说明判断理由"}`;
+// Shared with the Android app (packed as an asset there), so both ask the AI the same way.
+const SYSTEM_PROMPT = (await readFile(path.join(ROOTS['/shared/'], 'prompts/ai_system.txt'), 'utf8')).trim();
 
 const LABELS = new Set(['predatory_health', 'dubious_health', 'legit_health', 'hobby', 'other']);
 const cache = new Map();
 
-async function askQwen(observation, ruleHints) {
+async function askAi(observation, ruleHints) {
   const key = JSON.stringify(observation);
   if (cache.has(key)) return { ...cache.get(key), cached: true };
 
@@ -69,7 +66,7 @@ async function askQwen(observation, ruleHints) {
     body: JSON.stringify({
       model: MODEL,
       temperature: 0.1,
-      enable_thinking: false,
+      ...AI.noThinking, // no slow "thinking": he is waiting in front of a muted video
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
@@ -78,10 +75,10 @@ async function askQwen(observation, ruleHints) {
     }),
     signal: AbortSignal.timeout(12000),
   });
-  if (!res.ok) throw new Error(`Qwen HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  if (!res.ok) throw new Error(`${AI.name} HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`);
   const data = await res.json();
   const parsed = JSON.parse(data.choices?.[0]?.message?.content ?? '{}');
-  if (!LABELS.has(parsed.label)) throw new Error(`Unexpected label from Qwen: ${parsed.label}`);
+  if (!LABELS.has(parsed.label)) throw new Error(`Unexpected label from ${AI.name}: ${parsed.label}`);
 
   const result = { ...parsed, model: MODEL, latencyMs: Date.now() - started };
   cache.set(key, result);
@@ -125,15 +122,15 @@ async function serveStatic(req, res) {
 const server = http.createServer(async (req, res) => {
   try {
     if (req.method === 'GET' && req.url === '/api/status') {
-      return send(res, 200, { qwen: Boolean(API_KEY), model: API_KEY ? MODEL : null });
+      return send(res, 200, { ai: Boolean(API_KEY), provider: AI.name, model: API_KEY ? MODEL : null });
     }
     if (req.method === 'POST' && req.url === '/api/classify') {
       if (!API_KEY) return send(res, 200, { available: false });
       const { observation, ruleHints = [] } = await readJsonBody(req);
       try {
-        return send(res, 200, { available: true, result: await askQwen(observation, ruleHints) });
+        return send(res, 200, { available: true, result: await askAi(observation, ruleHints) });
       } catch (err) {
-        console.error('[qwen]', err.message);
+        console.error('[ai]', err.message);
         return send(res, 200, { available: true, error: err.message });
       }
     }
@@ -147,5 +144,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Willow prototype → http://localhost:${PORT}`);
-  console.log(API_KEY ? `Qwen enabled (model: ${MODEL})` : 'Qwen disabled - set DASHSCOPE_API_KEY in prototype-web/.env to enable it. Rules-only mode.');
+  console.log(API_KEY ? `AI enabled: ${AI.name} (model: ${MODEL})` : 'AI disabled - set DEEPSEEK_API_KEY in prototype-web/.env to enable it. Rules-only mode.');
 });

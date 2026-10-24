@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
-# Builds an app module's APK without Gradle, using only what Android Studio and the Android SDK
+# Builds the probe's APK without Gradle, using only what Android Studio and the Android SDK
 # already contain (bundled JDK + Kotlin compiler, aapt2, d8, zipalign, apksigner). No downloads.
-#   android/build-offline.sh app             → android/app/build/app.apk
+#   android/build-offline.sh probe           → android/probe/build/probe.apk
 #   android/build-offline.sh probe --install → also installs it on the USB phone
-# The `app` module also packs shared/rules and shared/debunks as assets, so it reads the same
-# JSON as the web prototype.
+# Willow itself (app) builds with Gradle since v1.0, because it uses ML Kit: android/willow.sh install
 set -euo pipefail
-MODULE="${1:?usage: build-offline.sh <module> [--install]}"
+MODULE="${1:?usage: build-offline.sh probe [--install]}"
+if [ "$MODULE" = "app" ]; then
+  echo "The app builds with Gradle now (it needs the ML Kit OCR library): android/willow.sh install"
+  exit 1
+fi
 cd "$(dirname "$0")/$MODULE"
 
 STUDIO="${STUDIO:-/e/Android_Studio}"
@@ -22,9 +25,6 @@ APK="build/$MODULE.apk"
 rm -rf build && mkdir -p build/classes build/dex build/assets
 
 echo "1/5 resources"
-if [ "$MODULE" = "app" ]; then
-  cp ../../shared/rules/*.json ../../shared/debunks/debunks.json ../../shared/samples/feed.json build/assets/
-fi
 [ -d src/main/assets ] && cp -r src/main/assets/. build/assets/
 "$BT/aapt2" compile --dir src/main/res -o build/res.zip
 "$BT/aapt2" link -o build/unsigned.apk -I "$PLATFORM" \

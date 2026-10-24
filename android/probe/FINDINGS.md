@@ -1,5 +1,9 @@
 # Probe findings: WeChat Channels on a real phone
 
+> **Since Willow v1.0** the app no longer reads the accessibility tree: it reads screenshots with on-phone OCR
+> (`app/src/main/kotlin/com/willow/FeedParser.kt`, tested against `build/shots/files/shot-1.png`'s layout).
+> The ids below still help when the tree happens to be readable (the search button) and for re-probing.
+
 **Test phone:** Honor Magic5 Pro (PGT-AN10), MagicOS 10, Android 16 (API 36), 1312×2848 @ 560 dpi
 **WeChat:** 8.0.69 (versionCode 3040)
 **Date:** 2026-10-12

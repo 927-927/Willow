@@ -2,7 +2,7 @@
 # A pattern without a "/" in the middle (like .env) matches in every folder.
 # Comments must sit on their own line: text after a pattern counts as part of the pattern.
 
-# Secrets: the Qwen / DashScope API key lives in prototype-web/.env. Never commit any .env file.
+# Secrets: the AI key (DeepSeek, or Qwen / DashScope) lives in prototype-web/.env. Never commit any .env file.
 .env
 .env.*
 # ...except the template, which holds no real key and is meant to be shared.
@@ -17,4 +17,5 @@ node_modules/
 # Android build output and machine-specific config
 android/**/build/
 android/.gradle/
+android/.kotlin/
 android/local.properties
