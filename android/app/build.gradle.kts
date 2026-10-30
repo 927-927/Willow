@@ -17,16 +17,10 @@ fun quoted(s: String) = "\"" + s.replace("\\", "\\\\").replace("\"", "\\\"") + "
 // The AI tier (v2.0). false builds v1.0 (rules + explanation cards only): no key goes into the APK.
 val aiOn = true
 
-// Which AI: DeepSeek (DEEPSEEK_API_KEY) by default, Qwen / 百炼 (DASHSCOPE_API_KEY) if only that key is set.
-// AI_PROVIDER=deepseek|qwen in .env picks one explicitly. Both speak the OpenAI chat API.
-class Ai(val provider: String, val key: String, val model: String, val baseUrl: String)
-val ai = when (env("AI_PROVIDER").ifEmpty { if (env("DEEPSEEK_API_KEY").isEmpty() && env("DASHSCOPE_API_KEY").isNotEmpty()) "qwen" else "deepseek" }) {
-    "qwen" -> Ai("qwen", env("DASHSCOPE_API_KEY"), env("QWEN_MODEL", "qwen-plus"),
-        env("QWEN_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1"))
-    // deepseek-flash = DeepSeek V4.1 Flash, their cheap model. Thinking is switched off in Ai.kt.
-    else -> Ai("deepseek", env("DEEPSEEK_API_KEY"), env("DEEPSEEK_MODEL", "deepseek-flash"),
-        env("DEEPSEEK_BASE_URL", "https://api.deepseek.com"))
-}
+// The AI: Qwen via 百炼 / DashScope (DASHSCOPE_API_KEY), OpenAI-compatible. Thinking is switched off in Ai.kt.
+val aiKey = env("DASHSCOPE_API_KEY")
+val aiModel = env("QWEN_MODEL", "qwen-plus")
+val aiBaseUrl = env("QWEN_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 
 android {
     namespace = "com.willow"
@@ -41,10 +35,9 @@ android {
         // ML Kit's OCR is native code; one ABI keeps the APK small (all current phones are arm64).
         ndk { abiFilters += "arm64-v8a" }
 
-        buildConfigField("String", "AI_PROVIDER", quoted(ai.provider))
-        buildConfigField("String", "AI_KEY", quoted(if (aiOn) ai.key else ""))
-        buildConfigField("String", "AI_MODEL", quoted(ai.model))
-        buildConfigField("String", "AI_BASE_URL", quoted(ai.baseUrl.trimEnd('/')))
+        buildConfigField("String", "AI_KEY", quoted(if (aiOn) aiKey else ""))
+        buildConfigField("String", "AI_MODEL", quoted(aiModel))
+        buildConfigField("String", "AI_BASE_URL", quoted(aiBaseUrl.trimEnd('/')))
     }
 
     buildFeatures { buildConfig = true }

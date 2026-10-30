@@ -3,7 +3,7 @@
 An app that protects the user's grandpa from fear-based health scam videos on **WeChat Channels (视频号)**. It mutes a new video, checks it, and if it's a scam, covers it with a calm spoken explanation. It also invites him to his hobbies (fishing, backyard crops, Chinese chess). It's part of the user's university application; the essay draft is `文书大概.txt`. Full plan: `APP_OUTLINE.md`.
 
 ## Non-negotiable product rules (from the user)
-- **No monitoring.** No watch history, no logs, no reports or alerts to family, no access to his account/messages/contacts. Only on-screen text of an *unclear* video may be sent to the AI (DeepSeek by default).
+- **No monitoring.** No watch history, no logs, no reports or alerts to family, no access to his account/messages/contacts. Only on-screen text of an *unclear* video may be sent to the AI (Qwen).
 - **No restricting.** Willow explains, never forbids: every interception has **继续看原视频** (keep watching). Willow never hides or removes videos. The feed changes only through his own taps.
 - Questionable-but-not-selling videos get only a small tip while they play. Verified doctors/hospitals are never touched.
 - Tone: respectful, "let's check together", never "you were fooled". Big text, slow voice.
@@ -11,7 +11,7 @@ An app that protects the user's grandpa from fear-based health scam videos on **
 ## Stack & decisions
 - Target: **Android** (Kotlin) AccessibilityService on top of WeChat (`com.tencent.mm`; Channels is the internal "Finder" plugin, so verify class names on the device).
 - **Reading the screen (v1.0):** WeChat hides its view tree from accessibility services, so Willow takes a screenshot (`takeScreenshotOfWindow` on Android 14+, so notifications are never in it), reads it with **on-phone Chinese OCR** (Google ML Kit, bundled model, works without Google Play services) and sorts the lines into author / caption / labels / burned-in text with `FeedParser.kt` (anchored on the bottom bar's counts row). Screenshots are dropped right after OCR. Only Channels *feed* screens are ever photographed (allowlist in `WillowService`).
-- AI tier (v2.0): **DeepSeek** `deepseek-flash` (V4.1 Flash, the cheap model) by default, or **Qwen** via 百炼 (`AI_PROVIDER=qwen`). Both are OpenAI-compatible and called from the phone (`Ai.kt`) and the prototype (`server.mjs`). Thinking mode must be off (DeepSeek: `"thinking": {"type": "disabled"}`; Qwen: `enable_thinking: false`), or he waits seconds in front of a muted video. Prompt: `shared/prompts/ai_system.txt`, used by both. The key is baked into the APK at build time from `prototype-web/.env`; `aiOn = false` in `android/app/build.gradle.kts` builds v1.0 (rules + cards only, no key in the APK).
+- AI tier (v2.0): **Qwen** `qwen-plus` via 百炼 / DashScope (OpenAI-compatible), called from the phone (`Ai.kt`) and the prototype (`server.mjs`). Thinking mode must be off (`enable_thinking: false`), or he waits seconds in front of a muted video. Prompt: `shared/prompts/ai_system.txt`, used by both. The key is baked into the APK at build time from `prototype-web/.env`; `aiOn = false` in `android/app/build.gradle.kts` builds v1.0 (rules + cards only, no key in the APK).
 - `shared/` holds the data the Android app reuses as-is: `rules/*.json`, `debunks/debunks.json`, `prompts/`. `shared/classifier.js` is the reference logic to port to Kotlin.
 
 ## Layout
@@ -24,7 +24,7 @@ android/probe/     test-phone tool that logs what Channels exposes; results in p
 
 ## Commands
 - Run prototype: `cd prototype-web && npm start` → http://localhost:5173 (must be opened through the server, not as a file)
-- AI key: copy `prototype-web/.env.example` to `.env` and set `DEEPSEEK_API_KEY` (or `DASHSCOPE_API_KEY` for Qwen). The same file feeds the Android build (rebuild after changing it).
+- AI key: copy `prototype-web/.env.example` to `.env` and set `DASHSCOPE_API_KEY`. The same file feeds the Android build (rebuild after changing it).
 - Build + install Willow (Gradle, Git Bash): `android/willow.sh install` (debug, test phone) or `android/willow.sh release` (Grandpa: no logs, no test hooks). It packs `shared/` rules, cards and prompt as assets. Parser tests on the PC: `android/willow.sh unittest`.
 - Build the probe (no Gradle): `android/build-offline.sh probe --install`.
 - The Honor test phone needs `ADB_LIBUSB=1` for every adb command (and `MSYS_NO_PATHCONV=1` in Git Bash for `/sdcard/...` paths); `willow.sh` sets both.
@@ -60,7 +60,8 @@ Record every behaviour change or bug found here, so the Android version gets it 
 | 2026-10-24 | Phone, WeChat 8.0.79: OCR reads neighbouring counts as one line (`1.7万 1.8万 9773`), so every screen was "not a video". Also: labels misread (`作者堤示`, `含A生成内容`, `D合集`), `8条回复` under 热评, play time glued to 🎧/弹 (`11:37 6) 弹`). | **Fixed** in `FeedParser.kt` (+2 tests from the real screen) |
 | 2026-10-24 | Phone: 抢购 book ad (sales + product card, no fear) → tip 0.45, banner shown. Tapping 抢购 opened the mini-program shop but no purchase pause appeared (shop loads slower than the 1.2 s + 2.5 s checks?). | **Open** |
 | 2026-10-24 | Phone: ads show words instead of most counts (`1 1`), so two ads could pass the same-video check; the author can be read from text inside the avatar (`文兴` for 东方文兴图书). | **Open** |
-| 2026-10-24 | Real 养生 feed: nothing reached intercept by rules alone (e.g. 「院长亲荐 白毛乌鸡甜酒汤，效果很好」 = 0). AI tier switched from Qwen to DeepSeek `deepseek-flash`; prompt renamed `ai_system.txt`. | **Yes**: done (`Ai.kt`, `server.mjs`) |
+| 2026-10-24 | Real 养生 feed: nothing reached intercept by rules alone (e.g. 「院长亲荐 白毛乌鸡甜酒汤，效果很好」 = 0). AI tier switched from Qwen to DeepSeek `deepseek-flash`; prompt renamed `ai_system.txt`. | See 2026-10-30 |
+| 2026-10-30 | AI tier back to Qwen `qwen-plus` (the user has a 百炼 key now); DeepSeek removed. The prompt keeps the name `ai_system.txt`. | **Yes**: done (`Ai.kt`, `server.mjs`) |
 
 ## Working notes
 - Debunk cards must be reviewed by a doctor/pharmacist before real use.

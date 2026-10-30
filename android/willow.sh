@@ -8,7 +8,7 @@
 #   willow.sh test [intercept|tip|allow] [card]   force a decision on the current video
 #   willow.sh selftest         Kotlin rules vs shared/classifier.js
 #   willow.sh unittest         FeedParser tests on the PC
-# The AI key is read at build time from prototype-web/.env (DEEPSEEK_API_KEY, or DASHSCOPE_API_KEY for Qwen).
+# The AI key is read at build time from prototype-web/.env (DASHSCOPE_API_KEY, Qwen).
 set -euo pipefail
 cd "$(dirname "$0")"
 SDK="${ANDROID_HOME:-$LOCALAPPDATA/Android/Sdk}"

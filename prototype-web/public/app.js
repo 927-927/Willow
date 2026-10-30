@@ -85,7 +85,7 @@ function finishDecision(d, obs) {
         myth_zh: d.ai.claim, myth_en: d.ai.claim_en,
         truth_zh: d.ai.truth, truth_en: d.ai.truth_en,
         action_zh: d.ai.action, action_en: d.ai.action_en,
-        source_zh: `这段解释由 AI（${status.provider === 'Qwen' ? '通义千问' : 'DeepSeek'}）生成，仅供参考。身体的事，请问医生。`,
+        source_zh: `这段解释由 AI（通义千问）生成，仅供参考。身体的事，请问医生。`,
       };
     } else if (d.level === 'intercept') {
       d.cardSource = 'generic';
@@ -549,7 +549,7 @@ function bindSettings() {
   $('optAi').onchange = (e) => { settings.ai = e.target.checked; };
   $('aiStatus').innerHTML = status.ai
     ? `Connected · ${esc(status.provider)}, model <code>${esc(status.model)}</code>. Only used for unclear videos.`
-    : 'Not configured: rules only. Add <code>DEEPSEEK_API_KEY</code> to <code>prototype-web/.env</code> and restart.';
+    : 'Not configured: rules only. Add <code>DASHSCOPE_API_KEY</code> to <code>prototype-web/.env</code> and restart.';
   $('optVoice').disabled = !voice.available;
   $('optVoice').onchange = (e) => { voice.enabled = e.target.checked; };
   $('optEnglish').onchange = (e) => { document.body.classList.toggle('show-en', e.target.checked); };

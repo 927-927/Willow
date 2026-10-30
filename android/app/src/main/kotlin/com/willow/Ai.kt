@@ -27,8 +27,8 @@ class AiAnswer(
  * read off the video: author, caption, labels, burned-in words, product card. Never the screenshot,
  * never anything about Grandpa.
  *
- * DeepSeek (deepseek-flash) by default, or Qwen (百炼); both speak the OpenAI chat API. The provider and
- * key come from prototype-web/.env at build time (see app/build.gradle.kts). No key: rules only.
+ * Qwen (qwen-plus via 百炼 / DashScope, OpenAI-compatible). The key and model come from
+ * prototype-web/.env at build time (see app/build.gradle.kts). No key: rules only.
  */
 class Ai(ctx: Context) {
 
@@ -78,9 +78,7 @@ class Ai(ctx: Context) {
                 .put(JSONObject().put("role", "system").put("content", prompt))
                 .put(JSONObject().put("role", "user").put("content", user)))
         // No "thinking" first: it would keep him waiting several seconds in front of a muted video.
-        // Each provider has its own switch for it.
-        if (BuildConfig.AI_PROVIDER == "qwen") body.put("enable_thinking", false)
-        else body.put("thinking", JSONObject().put("type", "disabled"))
+        body.put("enable_thinking", false)
 
         val conn = URL("${BuildConfig.AI_BASE_URL}/chat/completions").openConnection() as HttpURLConnection
         try {
@@ -100,7 +98,7 @@ class Ai(ctx: Context) {
             val content = JSONObject(text).getJSONArray("choices").getJSONObject(0)
                 .getJSONObject("message").getString("content")
                 .trim().removePrefix("```json").removePrefix("```").removeSuffix("```").trim()
-            if (content.isEmpty()) error("empty answer") // DeepSeek's JSON mode can rarely return nothing
+            if (content.isEmpty()) error("empty answer")
             val o = JSONObject(content)
             val label = o.optString("label")
             if (label !in LABELS) error("unexpected label: $label")
@@ -115,7 +113,7 @@ class Ai(ctx: Context) {
 
     companion object {
         /** For Grandpa's screens: the AI-written card says who wrote it. */
-        val NAME_ZH = if (BuildConfig.AI_PROVIDER == "qwen") "通义千问" else "DeepSeek"
+        const val NAME_ZH = "通义千问"
         private val LABELS = setOf("predatory_health", "dubious_health", "legit_health", "hobby", "other")
     }
 }

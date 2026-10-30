@@ -7,7 +7,7 @@ A phone-shaped simulation of WeChat Channels (视频号) with Willow running on 
 - **Gentle tips.** Questionable-but-not-selling videos keep playing with a small tip.
 - **Grandpa stays in charge.** Every interception has "继续看原视频" (keep watching). Willow never hides videos and keeps no history.
 - **Feed steering via his own taps.** Tapping 换一个 sends "not interested"; the hobby button (钓鱼 / 种菜 / 下棋) invites him to something he enjoys.
-- **AI for unclear cases.** Rules decide instantly; only uncertain videos are sent to the AI (DeepSeek by default, or Qwen; text only).
+- **AI for unclear cases.** Rules decide instantly; only uncertain videos are sent to the AI (Qwen; text only).
 
 ## Run it
 
@@ -22,9 +22,9 @@ Open http://localhost:5173 and tap **点一下开始**.
 
 ## Turn on the AI (optional)
 
-1. Get a DeepSeek API key: https://platform.deepseek.com/api_keys (or a Qwen key from 百炼: https://bailian.console.aliyun.com/)
-2. Copy `.env.example` to `.env` and set `DEEPSEEK_API_KEY=...` (or `DASHSCOPE_API_KEY=...` for Qwen)
-3. Restart `npm start`. The panel shows "Connected · DeepSeek, model deepseek-flash".
+1. Get an API key from Alibaba Cloud Model Studio (百炼): https://bailian.console.aliyun.com/
+2. Copy `.env.example` to `.env` and set `DASHSCOPE_API_KEY=...`
+3. Restart `npm start`. The panel shows "Connected · Qwen, model qwen-plus".
 
 Videos the rules aren't sure about then go to the AI. Try `m2` (grapefruit + blood-pressure pills): the rules alone show a tip, but the AI recognises it as correct advice and lets it play. `s8` (bee-propolis immunity) has no curated card, so the AI writes the explanation.
 
@@ -44,14 +44,14 @@ Videos the rules aren't sure about then go to the AI. Try `m2` (grapefruit + blo
 | Videos | CSS scenes + text-to-speech | Real WeChat Channels videos |
 | What Willow reads | Author, caption, hashtags, product, on-screen text | Same, via AccessibilityService (+ screenshot OCR for burned-in text) |
 | Rules, debunk cards, hobbies | `../shared/` | Same JSON files |
-| AI tier | `server.mjs` → DeepSeek (or DashScope) | Phone → DeepSeek (or DashScope), `Ai.kt` |
+| AI tier | `server.mjs` → Qwen (DashScope) | Phone → Qwen (DashScope), `Ai.kt` |
 | Recommender | Toy model in `recommender.js` | The platform's real algorithm; Willow only sends "not interested" when he taps 换一个 |
 
 ## Files
 
 ```
 prototype-web/
-  server.mjs           static server + /api/classify (DeepSeek or Qwen)
+  server.mjs           static server + /api/classify (Qwen)
   public/index.html    page layout
   public/app.js        feed flow, decisions, debunk screen, panel
   public/scenes.js     mock video rendering

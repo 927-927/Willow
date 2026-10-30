@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Willow (柳荫): mutes, checks and gently explains fear-based health scam videos in WeChat Channels.
      No monitoring: nothing is stored, screenshots are read on the phone and thrown away, and only the
-     on-screen text of an unclear video is sent to the AI (DeepSeek or Qwen). No restricting: every explanation has 继续看原视频. -->
+     on-screen text of an unclear video is sent to the AI (Qwen). No restricting: every explanation has 继续看原视频. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 

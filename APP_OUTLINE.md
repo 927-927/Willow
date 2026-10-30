@@ -2,7 +2,7 @@
 
 > Working name from the essay: the willow tree my great-grandparents sat under. The app's job is to give Grandpa that same carefree shade back from his phone.
 
-**Decisions so far:** Android · WeChat Channels (视频号) · DeepSeek (`deepseek-flash`) for the AI tier, Qwen as a switchable alternative (decided 2026-10-24: the user already has a DeepSeek account) · no monitoring, no restricting what he watches.
+**Decisions so far:** Android · WeChat Channels (视频号) · Qwen (`qwen-plus`, via 百炼) for the AI tier (DeepSeek was tried from 2026-10-24 to 2026-10-30, while there was no Qwen key) · no monitoring, no restricting what he watches.
 
 **Status:** Phase 1 browser prototype is built → [prototype-web/README.md](prototype-web/README.md). Android **v1.0** (screenshot + on-phone OCR, rules + Qwen, purchase pause, hobby search) is built in [android/app](android/app); next is testing it on the phone.
 

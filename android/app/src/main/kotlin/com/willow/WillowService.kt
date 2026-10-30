@@ -21,7 +21,7 @@ import android.view.accessibility.AccessibilityWindowInfo
  *  1. Mute first, decide second: the moment a swipe starts (or Channels opens), mute the media stream.
  *  2. When the feed settles, take a screenshot, read it with on-phone OCR, sort the words into
  *     author / caption / labels / burned-in text ([FeedParser]) and classify them with the shared rules.
- *     Unsure → ask the AI (DeepSeek or Qwen) with that text only. A few more screenshots follow in the first seconds,
+ *     Unsure → ask the AI (Qwen) with that text only. A few more screenshots follow in the first seconds,
  *     because the scariest words often come later as subtitles.
  *  3. Intercept → explanation card (stays muted). Tip → yellow banner + sound. Allow → sound back.
  *
@@ -85,7 +85,7 @@ class WillowService : AccessibilityService(), ExplainOverlay.Listener {
             registerReceiver(devCommands, filter, Context.RECEIVER_EXPORTED)
         }
         log("connected · v${BuildConfig.VERSION_NAME} · rules ok · ${rules.hobbies.size} hobbies · " +
-            if (ai.available) "AI ${BuildConfig.AI_PROVIDER} ${ai.model}" else "AI off (no key)")
+            if (ai.available) "AI ${ai.model}" else "AI off (no key)")
     }
 
     override fun onDestroy() {
@@ -453,7 +453,7 @@ class WillowService : AccessibilityService(), ExplainOverlay.Listener {
     private fun aiTest(text: String?) {
         val obs = video?.obs?.takeIf { text == null } ?: Observation("测试", text ?: "降压药千万别再吃了，这个茶喝三个月血压就正常", emptyList(), null)
         val d = rules.decide(obs)
-        log("AI test ${BuildConfig.AI_PROVIDER} ${ai.model} (rules: ${d.level} ${d.label}) asking…")
+        log("AI test ${ai.model} (rules: ${d.level} ${d.label}) asking…")
         ai.ask(obs, d.matched.map { it.labelZh }) { answer, err ->
             if (answer == null) log("AI test failed: $err")
             else log("AI test ${answer.label} ${answer.confidence} ${answer.ms}ms · claim=${answer.claim} · truth=${answer.truth} · action=${answer.action} · ${answer.reason}")

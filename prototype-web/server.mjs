@@ -1,5 +1,5 @@
 // Willow prototype server - zero dependencies (Node 22+).
-// Serves the web prototype, the shared rules, and a /api/classify endpoint that asks the AI (DeepSeek or Qwen)
+// Serves the web prototype, the shared rules, and a /api/classify endpoint that asks the AI (Qwen)
 // about videos the rules aren't sure about. The API key stays here, never in the browser.
 
 import http from 'node:http';
@@ -14,17 +14,11 @@ const ROOTS = {
 };
 const PORT = Number(process.env.PORT || 5173);
 
-// The AI: DeepSeek (DEEPSEEK_API_KEY) by default, Qwen / 百炼 (DASHSCOPE_API_KEY) if only that key is set,
-// or AI_PROVIDER=deepseek|qwen. The same choice as android/app/build.gradle.kts.
+// The AI: Qwen via 百炼 / DashScope (DASHSCOPE_API_KEY), OpenAI-compatible.
+// The same settings as android/app/build.gradle.kts.
 const env = process.env;
-const PROVIDER = env.AI_PROVIDER || (!env.DEEPSEEK_API_KEY && env.DASHSCOPE_API_KEY ? 'qwen' : 'deepseek');
-const AI = PROVIDER === 'qwen'
-  ? { name: 'Qwen', key: env.DASHSCOPE_API_KEY, model: env.QWEN_MODEL || 'qwen-plus',
-      baseUrl: env.QWEN_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-      noThinking: { enable_thinking: false } }
-  : { name: 'DeepSeek', key: env.DEEPSEEK_API_KEY, model: env.DEEPSEEK_MODEL || 'deepseek-flash',
-      baseUrl: env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
-      noThinking: { thinking: { type: 'disabled' } } };
+const AI = { name: 'Qwen', key: env.DASHSCOPE_API_KEY, model: env.QWEN_MODEL || 'qwen-plus',
+  baseUrl: env.QWEN_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1' };
 const API_KEY = AI.key || '';
 const BASE_URL = AI.baseUrl.replace(/\/$/, '');
 const MODEL = AI.model;
@@ -66,7 +60,7 @@ async function askAi(observation, ruleHints) {
     body: JSON.stringify({
       model: MODEL,
       temperature: 0.1,
-      ...AI.noThinking, // no slow "thinking": he is waiting in front of a muted video
+      enable_thinking: false, // no slow "thinking": he is waiting in front of a muted video
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
@@ -144,5 +138,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Willow prototype → http://localhost:${PORT}`);
-  console.log(API_KEY ? `AI enabled: ${AI.name} (model: ${MODEL})` : 'AI disabled - set DEEPSEEK_API_KEY in prototype-web/.env to enable it. Rules-only mode.');
+  console.log(API_KEY ? `AI enabled: ${AI.name} (model: ${MODEL})` : 'AI disabled - set DASHSCOPE_API_KEY in prototype-web/.env to enable it. Rules-only mode.');
 });
